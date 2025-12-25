@@ -6,6 +6,10 @@ export interface Product {
   category: string
 }
 
-export interface ApiResponse {
+export interface PaginatedResponse {
   products: Product[]
+  total: number
+  page: number
+  totalPages: number
+  limit: number
 }
