@@ -1,2 +1,2 @@
-export { Category } from './category'
+export { Products } from './products'
 export { Header } from './header'

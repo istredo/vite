@@ -1,10 +1,10 @@
-import { Category, Header } from '../../widgets'
+import { Header, Products } from '../../widgets'
 
 export const Layout = () => {
   return (
     <div>
       <Header />
-      <Category />
+      <Products />
     </div>
   )
 }
