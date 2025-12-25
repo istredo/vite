@@ -1,2 +1,2 @@
-export { Sort } from './sort'
+export { Category } from './category'
 export { Filters } from './filters'

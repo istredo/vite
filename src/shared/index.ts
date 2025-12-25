@@ -1,3 +1,5 @@
 export { Button } from './button'
 export * from './utils/types'
-export { useProductsPagination } from './utils/useProductPagination'
+export { productsApi } from './api/productsApi'
+export * from './utils/redux'
+export * from './utils/types'

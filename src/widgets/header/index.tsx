@@ -1,15 +1,18 @@
-import { Filters, Sort } from '../../features'
-import { Button } from '../../shared'
+import { Filters, Category } from '../../features'
+import { Button, useAppDispatch } from '../../shared'
+import { clearFilters } from '../products/productSlice'
 
 export const Header = () => {
-  const clearFilters = () => {
-    console.log('clearFilters ')
+  const dispatch = useAppDispatch()
+
+  const handleClearFilters = () => {
+    dispatch(clearFilters())
   }
   return (
     <header>
       <Filters />
-      <Sort />
-      <Button onClick={clearFilters}>Очистить фильтры</Button>
+      <Category />
+      <Button onClick={handleClearFilters}>Очистить фильтры</Button>
     </header>
   )
 }
