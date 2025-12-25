@@ -1,5 +1,5 @@
-import styles from './index.module.scss'
+import styles from './card.module.css'
 
 export const Card = () => {
-  return <div className={styles.container}></div>
+  return <div className={styles.container}>123</div>
 }
