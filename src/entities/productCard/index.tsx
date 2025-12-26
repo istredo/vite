@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import styles from './productCard.module.css'
-import { useAppSelector, type Product } from '../../shared'
+import { Button, useAppSelector, type Product } from '../../shared'
 import { addToCart, toggleCart } from '../../entities/cart/cartSlice'
 import { selectCartItemById } from '../cart/cartSelectors'
 
@@ -71,9 +71,7 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
             </button>
           </div>
         ) : (
-          <button onClick={handleAddToCart} className={styles.button}>
-            В корзину
-          </button>
+          <Button onClick={handleAddToCart}>В корзину</Button>
         )}
       </div>
     </div>

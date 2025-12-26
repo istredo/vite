@@ -78,7 +78,7 @@
 .filtersWrapper {
   display: flex;
   gap: 15px;
-  align-items: center;
+  align-items: flex-end;
   flex-wrap: wrap;
   justify-content: center;
   max-width: 800px;

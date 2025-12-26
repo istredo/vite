@@ -1,25 +1,26 @@
-import { useAppDispatch, useAppSelector } from '../../shared'
+import { Select, useAppDispatch, useAppSelector } from '../../shared'
 import { setCategory } from '../../widgets/products/productSlice'
 import styles from './category.module.css'
 export const Category = () => {
   const dispatch = useAppDispatch()
-  const handleCategoryChange = (newCategory: string) => {
-    dispatch(setCategory(newCategory))
-  }
+
   const { category } = useAppSelector((state) => state.product)
+
+  const categoryOptions = [
+    { value: 'all', label: 'Все товары' },
+    { value: 'food', label: 'Еда' },
+    { value: 'clothes', label: 'Одежда' },
+    { value: 'electronics', label: 'Электроника' },
+  ]
   return (
     <div className={styles.filter}>
-      <label htmlFor='category'>Категория: </label>
-      <select
-        id='category'
+      <Select
+        label='Категория:'
         value={category}
-        onChange={(e) => handleCategoryChange(e.target.value)}
-      >
-        <option value='all'>Все товары</option>
-        <option value='food'>Еда</option>
-        <option value='clothes'>Одежда</option>
-        <option value='electronics'>Электроника</option>
-      </select>
+        onChange={(value) => dispatch(setCategory(value))}
+        options={categoryOptions}
+        id='category'
+      />
     </div>
   )
 }

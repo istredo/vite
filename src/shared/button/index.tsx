@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './button.module.css'
 
 interface ButtonProps {
   onClick?: () => void
@@ -6,5 +7,9 @@ interface ButtonProps {
 }
 
 export const Button: React.FC<ButtonProps> = ({ onClick, children }) => {
-  return <button onClick={onClick}>{children}</button>
+  return (
+    <button className={styles.button} onClick={onClick}>
+      {children}
+    </button>
+  )
 }
