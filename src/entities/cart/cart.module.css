@@ -135,6 +135,7 @@
   border: 1px solid #eee;
   border-radius: 8px;
   background: #fafafa;
+  color: black;
 
   transition: transform 0.2s;
 }

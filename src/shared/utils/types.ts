@@ -28,3 +28,30 @@ export interface CartState {
   items: CartItem[]
   isOpen: boolean
 }
+
+export interface ServerProductsResponse {
+  first: number | null
+  prev: number | null
+  next: number | null
+  last: number
+  pages: number
+  items: number
+  data: Product[]
+}
+
+export interface ProductsResponse {
+  products: Product[]
+  total: number
+  page: number
+  pages: number
+  nextPage: number | null
+  prevPage: number | null
+}
+
+export interface GetProductsParams {
+  category?: string
+  sortBy?: string
+  page?: number
+  limit?: number
+  search?: string
+}

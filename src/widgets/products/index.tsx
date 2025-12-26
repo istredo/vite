@@ -9,7 +9,6 @@ import {
   useUrlSync,
 } from '../../shared'
 import { setCurrentPage } from './productSlice'
-import { RouterSync } from './RouterSync'
 import { useProducts } from '../../shared/utils/useProducts'
 
 export const Products: React.FC = () => {
@@ -43,35 +42,31 @@ export const Products: React.FC = () => {
   }
 
   return (
-    <>
-      <RouterSync />
-      <div className={styles.container}>
-        <ProductsHeader totalItems={totalItems} category={category} />
+    <div className={styles.container}>
+      <ProductsHeader totalItems={totalItems} category={category} />
 
-        {products.length === 0 ? (
-          <div className={styles.empty}>
-            <p>Товары не найдены</p>
-            <p className={styles.emptyHint}>
-              Попробуйте изменить фильтры или выбрать другую категорию
-            </p>
+      {products.length === 0 ? (
+        <div className={styles.empty}>
+          <p>Товары не найдены</p>
+          <p className={styles.emptyHint}>
+            Попробуйте изменить фильтры или выбрать другую категорию
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className={styles.grid}>
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
-        ) : (
-          <>
-            <div className={styles.grid}>
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onNextPage={handleNextPage}
-              onPrevPage={handlePrevPage}
-            />
-          </>
-        )}
-      </div>
-    </>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onNextPage={handleNextPage}
+            onPrevPage={handlePrevPage}
+          />
+        </>
+      )}
+    </div>
   )
 }

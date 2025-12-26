@@ -1,9 +1,8 @@
 import React, { memo, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 import styles from './productCard.module.css'
 import { useAppSelector, type Product } from '../../shared'
-import { addToCart } from '../../entities/cart/cartSlice'
+import { addToCart, toggleCart } from '../../entities/cart/cartSlice'
 import { selectCartItemById } from '../cart/cartSelectors'
 
 interface ProductCardProps {
@@ -36,6 +35,9 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
       }),
     )
   }, [dispatch, product])
+  const handleClick = () => {
+    dispatch(toggleCart())
+  }
 
   return (
     <div className={styles.product_card}>
@@ -61,12 +63,12 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
         <span className={styles.price}>{formatPrice(product.price)}</span>
         {cartItem ? (
           <div className={styles.cartControls}>
-            <Link to='/cart' className={styles.viewCartButton}>
+            <div className={styles.inCart}>
               В корзине: {cartItem.quantity} шт.
-            </Link>
-            <Link to='/cart' className={styles.goToCartButton}>
+            </div>
+            <button onClick={handleClick} className={styles.goToCartButton}>
               Перейти
-            </Link>
+            </button>
           </div>
         ) : (
           <button onClick={handleAddToCart} className={styles.button}>

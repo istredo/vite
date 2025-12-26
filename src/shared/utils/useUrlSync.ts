@@ -36,10 +36,7 @@ export const useUrlSync = () => {
 
     if (JSON.stringify(currentParams) !== JSON.stringify(params)) {
       const newSearch = new URLSearchParams(params).toString()
-      const newUrl =
-        params.cart === 'open' && location.pathname !== '/cart'
-          ? `${location.pathname}${newSearch ? `?${newSearch}` : ''}`
-          : location.pathname
+      const newUrl = `${location.pathname}${newSearch ? `?${newSearch}` : ''}`
 
       window.history.replaceState({}, '', newUrl)
     }

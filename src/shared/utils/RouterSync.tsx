@@ -1,7 +1,11 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { setCategory, setSortBy, setCurrentPage } from './productSlice'
+import {
+  setCategory,
+  setSortBy,
+  setCurrentPage,
+} from '../../widgets/products/productSlice'
 import { closeCart, openCart } from '../../entities/cart/cartSlice'
 
 export const RouterSync = () => {

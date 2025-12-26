@@ -1,26 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { Product } from '../utils/types'
-
-interface GetProductsParams {
-  category?: string
-  sortBy?: string
-  page?: number
-  limit?: number
-  search?: string
-}
-
-interface ProductsResponse {
-  products: Product[]
-  total: number
-  page: number
-  pages: number
-}
+import type { GetProductsParams, ProductsResponse } from '../utils/types'
+import { transformProductsResponse } from '../utils/responseTransformers'
+import { productsEndpointsConfig } from './productsEndpoints'
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:3001',
-    paramsSerializer: (params) => {
+    paramsSerializer: (params: GetProductsParams) => {
       const searchParams = new URLSearchParams()
 
       Object.entries(params).forEach(([key, value]) => {
@@ -60,29 +47,9 @@ export const productsApi = createApi({
   tagTypes: ['Products'],
   endpoints: (builder) => ({
     getProducts: builder.query<ProductsResponse, GetProductsParams>({
-      query: (params) => ({
-        url: '/products',
-        params,
-      }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      transformResponse: (response: any) => {
-        if (Array.isArray(response)) {
-          return {
-            products: response,
-            total: response.length,
-            page: 1,
-            pages: 1,
-          }
-        } else {
-          return {
-            products: response.data || [],
-            total: response.items || 0,
-            page: response.page || 1,
-            pages: response.pages || 1,
-          }
-        }
-      },
-      providesTags: ['Products'],
+      query: productsEndpointsConfig.query,
+      transformResponse: transformProductsResponse,
+      providesTags: productsEndpointsConfig.providesTags,
     }),
   }),
 })

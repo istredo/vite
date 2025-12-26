@@ -1,9 +1,11 @@
 import { Route, Routes } from 'react-router-dom'
 import { Header, Products } from '../../widgets'
-import { RouterSync } from '../../widgets/products/RouterSync'
+import { RouterSync } from '../../shared'
 import { Cart } from '../../entities'
+import { useUrlSync } from '../../shared'
 
 export const Layout = () => {
+  useUrlSync()
   return (
     <>
       <RouterSync />
