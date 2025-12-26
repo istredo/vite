@@ -1,34 +1,56 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useAppSelector } from './redux'
 
-export const useUrlSync = (
-  params: { category: string; sortBy: string; currentPage: number },
-  delay = 100,
-) => {
+export const useUrlSync = () => {
   const [isUrlUpdateEnabled, setIsUrlUpdateEnabled] = useState(false)
+  const location = useLocation()
+
+  const { category, sortBy, currentPage } = useAppSelector(
+    (state) => state.product,
+  )
+  const isCartOpen = useAppSelector((state) => state.cart.isOpen)
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsUrlUpdateEnabled(true), delay)
+    const timer = setTimeout(() => setIsUrlUpdateEnabled(true), 100)
     return () => clearTimeout(timer)
-  }, [delay])
+  }, [])
 
   const updateUrl = useCallback(() => {
     if (!isUrlUpdateEnabled) return
 
-    const { category, sortBy, currentPage } = params
-    const newParams: Record<string, string> = {}
+    const params: Record<string, string> = {}
 
-    if (category !== 'all') newParams.category = category
-    if (sortBy !== 'name') newParams.sort = sortBy
-    if (currentPage !== 1) newParams.page = currentPage.toString()
+    if (location.pathname !== '/cart') {
+      if (category !== 'all') params.category = category
+      if (sortBy !== 'name') params.sort = sortBy
+      if (currentPage !== 1) params.page = currentPage.toString()
+    }
+
+    if (isCartOpen) {
+      params.cart = 'open'
+    }
 
     const searchParams = new URLSearchParams(window.location.search)
     const currentParams = Object.fromEntries(searchParams.entries())
 
-    if (JSON.stringify(currentParams) !== JSON.stringify(newParams)) {
-      const newSearch = new URLSearchParams(newParams).toString()
-      window.history.replaceState({}, '', `?${newSearch}`)
+    if (JSON.stringify(currentParams) !== JSON.stringify(params)) {
+      const newSearch = new URLSearchParams(params).toString()
+      const newUrl =
+        params.cart === 'open' && location.pathname !== '/cart'
+          ? `${location.pathname}${newSearch ? `?${newSearch}` : ''}`
+          : location.pathname
+
+      window.history.replaceState({}, '', newUrl)
     }
-  }, [params, isUrlUpdateEnabled])
+  }, [
+    location.pathname,
+    category,
+    sortBy,
+    currentPage,
+    isCartOpen,
+    isUrlUpdateEnabled,
+  ])
 
   useEffect(() => {
     updateUrl()

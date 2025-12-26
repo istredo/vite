@@ -15,11 +15,9 @@ import { useProducts } from '../../shared/utils/useProducts'
 export const Products: React.FC = () => {
   const dispatch = useAppDispatch()
 
-  const { category, sortBy, currentPage } = useAppSelector(
-    (state) => state.product,
-  )
+  const { category, currentPage } = useAppSelector((state) => state.product)
 
-  useUrlSync({ category, sortBy, currentPage })
+  useUrlSync()
 
   const { products, totalItems, totalPages, isLoading, error } = useProducts()
 
