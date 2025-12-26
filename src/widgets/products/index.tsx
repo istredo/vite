@@ -1,65 +1,30 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import { ProductCard } from '../../entities'
 import styles from './products.module.css'
-import { useGetProductsQuery } from '../../shared/api/productsApi'
+import {
+  Pagination,
+  ProductsHeader,
+  useAppDispatch,
+  useAppSelector,
+  useUrlSync,
+} from '../../shared'
 import { setCurrentPage } from './productSlice'
-import { useAppDispatch, useAppSelector } from '../../shared'
 import { RouterSync } from './RouterSync'
+import { useProducts } from '../../shared/utils/useProducts'
+
 export const Products: React.FC = () => {
   const dispatch = useAppDispatch()
-  const [isUrlUpdateEnabled, setIsUrlUpdateEnabled] = useState(false)
 
-  const { category, sortBy, currentPage, itemsPerPage } = useAppSelector(
+  const { category, sortBy, currentPage } = useAppSelector(
     (state) => state.product,
   )
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsUrlUpdateEnabled(true), 100)
-    return () => clearTimeout(timer)
-  }, [])
+  useUrlSync({ category, sortBy, currentPage })
 
-  const updateUrl = useCallback(() => {
-    if (!isUrlUpdateEnabled) return
-
-    const params: Record<string, string> = {}
-    if (category !== 'all') params.category = category
-    if (sortBy !== 'name') params.sort = sortBy
-    if (currentPage !== 1) params.page = currentPage.toString()
-
-    const searchParams = new URLSearchParams(window.location.search)
-    const currentParams = Object.fromEntries(searchParams.entries())
-
-    if (JSON.stringify(currentParams) !== JSON.stringify(params)) {
-      const newSearch = new URLSearchParams(params).toString()
-      window.history.replaceState({}, '', `?${newSearch}`)
-    }
-  }, [category, sortBy, currentPage, isUrlUpdateEnabled])
-
-  useEffect(() => {
-    updateUrl()
-  }, [updateUrl])
-
-  const { data, isLoading, error } = useGetProductsQuery({
-    category: category !== 'all' ? category : undefined,
-    sortBy,
-    page: currentPage,
-    limit: itemsPerPage,
-  })
-
-  useEffect(() => {
-    console.log('Products debug:', {
-      category,
-      sortBy,
-      currentPage,
-      itemsPerPage,
-      data,
-      isLoading,
-      error,
-    })
-  }, [category, sortBy, currentPage, data, isLoading, error])
+  const { products, totalItems, totalPages, isLoading, error } = useProducts()
 
   const handleNextPage = () => {
-    if (data && currentPage < data.pages) {
+    if (totalPages && currentPage < totalPages) {
       dispatch(setCurrentPage(currentPage + 1))
     }
   }
@@ -79,25 +44,11 @@ export const Products: React.FC = () => {
     return <div className={styles.error}>Ошибка при загрузке товаров</div>
   }
 
-  const products = data?.products || []
-  const totalItems = data?.total || 0
-
-  console.log('Rendering products:', products)
-
   return (
     <>
       <RouterSync />
       <div className={styles.container}>
-        <div className={styles.header}>
-          <h1>Каталог товаров</h1>
-
-          <div className={styles.paginationInfo}>
-            <span>Найдено товаров: {totalItems}</span>
-            {category !== 'all' && (
-              <span> • Категория: {getCategoryLabel(category)}</span>
-            )}
-          </div>
-        </div>
+        <ProductsHeader totalItems={totalItems} category={category} />
 
         {products.length === 0 ? (
           <div className={styles.empty}>
@@ -109,46 +60,20 @@ export const Products: React.FC = () => {
         ) : (
           <>
             <div className={styles.grid}>
-              {products.map((product) => {
-                console.log('Rendering product:', product)
-                return <ProductCard key={product.id} product={product} />
-              })}
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
             </div>
 
-            <div className={styles.pagination}>
-              <button
-                className={styles.paginationButton}
-                onClick={handlePrevPage}
-                disabled={currentPage === 1}
-              >
-                ← Назад
-              </button>
-
-              <span className={styles.pageInfo}>
-                Страница {currentPage} из {data?.pages || 1}
-              </span>
-
-              <button
-                className={styles.paginationButton}
-                onClick={handleNextPage}
-                disabled={!data || currentPage >= data.pages}
-              >
-                Вперед →
-              </button>
-            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onNextPage={handleNextPage}
+              onPrevPage={handlePrevPage}
+            />
           </>
         )}
       </div>
     </>
   )
-}
-
-function getCategoryLabel(category: string): string {
-  const labels: Record<string, string> = {
-    food: 'Еда',
-    clothes: 'Одежда',
-    electronics: 'Электроника',
-    all: 'Все товары',
-  }
-  return labels[category] || category
 }
