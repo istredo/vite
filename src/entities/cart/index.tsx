@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeCart, clearCart } from './cartSlice'
 import styles from './cart.module.css'
@@ -18,29 +18,26 @@ export const Cart = memo(() => {
   const totalItems = useSelector(selectCartTotalItems)
   const isOpen = useSelector(selectIsCartOpen)
 
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     dispatch(closeCart())
-  }, [dispatch])
+  }
 
-  const handleClearCart = useCallback(() => {
+  const handleClearCart = () => {
     if (window.confirm('Очистить всю корзину?')) {
       dispatch(clearCart())
     }
-  }, [dispatch])
+  }
 
-  const handleOverlayClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === e.currentTarget) {
-        handleClose()
-      }
-    },
-    [handleClose],
-  )
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      handleClose()
+    }
+  }
 
-  const handleCheckout = useCallback(() => {
+  const handleCheckout = () => {
     alert('Функционал оформления заказа в разработке')
     handleClose()
-  }, [handleClose])
+  }
 
   useEffect(() => {
     if (isOpen) {

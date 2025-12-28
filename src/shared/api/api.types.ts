@@ -7,8 +7,11 @@ export const TAG_TYPES = {
   PRODUCTS: 'Products' as const,
 } as const
 
-export type TagTypes = (typeof TAG_TYPES)[keyof typeof TAG_TYPES]
+export const API_TAG_IDS = {
+  LIST: 'LIST',
+}
 
+export type TagTypes = (typeof TAG_TYPES)[keyof typeof TAG_TYPES]
 export const REDUCER_PATH = 'productsApi' as const
 export type ReducerPath = typeof REDUCER_PATH
 

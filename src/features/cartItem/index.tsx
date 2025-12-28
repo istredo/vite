@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo } from 'react'
 import { useDispatch } from 'react-redux'
 import styles from '../../entities/cart/cart.module.css'
 import { removeFromCart, updateQuantity } from '../../entities/cart/cartSlice'
@@ -15,26 +15,22 @@ export const CartItem = memo<CartItemProps>(
   ({ id, name, price, image, quantity }) => {
     const dispatch = useDispatch()
 
-    const handleIncrement = useCallback(() => {
+    const handleIncrement = () => {
       dispatch(updateQuantity({ id, quantity: quantity + 1 }))
-    }, [dispatch, id, quantity])
+    }
 
-    const handleDecrement = useCallback(() => {
+    const handleDecrement = () => {
       dispatch(updateQuantity({ id, quantity: quantity - 1 }))
-    }, [dispatch, id, quantity])
+    }
 
-    const handleRemove = useCallback(() => {
+    const handleRemove = () => {
       dispatch(removeFromCart(id))
-    }, [dispatch, id])
+    }
 
-    const handleQuantityChange = useCallback(
-      (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newQuantity = parseInt(e.target.value) || 0
-        dispatch(updateQuantity({ id, quantity: newQuantity }))
-      },
-      [dispatch, id],
-    )
-
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newQuantity = parseInt(e.target.value) || 0
+      dispatch(updateQuantity({ id, quantity: newQuantity }))
+    }
     const totalPrice = price * quantity
 
     return (

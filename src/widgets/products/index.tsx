@@ -56,7 +56,15 @@ export const Products: React.FC = () => {
         <>
           <div className={styles.grid}>
             {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                description={product.description}
+                price={product.price}
+                category={product.category}
+                image={product.image}
+              />
             ))}
           </div>
           <Pagination

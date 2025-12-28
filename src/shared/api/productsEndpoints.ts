@@ -5,6 +5,7 @@ import type {
   ServerProductsResponse,
 } from '../utils/types'
 import { transformProductsResponse } from '../utils/responseTransformers'
+import { API_TAG_IDS, TAG_TYPES } from './api.types'
 
 export type ProductsEndpointConfig = {
   query: (params: GetProductsParams) => {
@@ -28,11 +29,13 @@ export const productsEndpointsConfig: ProductsEndpointConfig = {
   providesTags: (result) =>
     result
       ? [
-          ...result.products.map(({ id }) => ({
-            type: 'Products' as const,
-            id,
-          })),
-          { type: 'Products' as const, id: 'LIST' },
+          ...result.products.map(({ id }) => {
+            return {
+              type: TAG_TYPES.PRODUCTS,
+              id,
+            }
+          }),
+          { type: TAG_TYPES.PRODUCTS, id: API_TAG_IDS.LIST },
         ]
-      : [{ type: 'Products' as const, id: 'LIST' }],
+      : [{ type: TAG_TYPES.PRODUCTS, id: API_TAG_IDS.LIST }],
 }
