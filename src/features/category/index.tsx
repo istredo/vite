@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import {
   CATEGORY_OPTIONS,
   Select,
@@ -6,7 +7,7 @@ import {
 } from '../../shared'
 import { setCategory } from '../../widgets/products/productSlice'
 import styles from './category.module.css'
-export const Category = () => {
+export const Category = memo(() => {
   const dispatch = useAppDispatch()
 
   const { category } = useAppSelector((state) => state.product)
@@ -22,4 +23,4 @@ export const Category = () => {
       />
     </div>
   )
-}
+})

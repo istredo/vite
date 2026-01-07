@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import {
   Select,
   SORT_OPTIONS,
@@ -6,7 +7,7 @@ import {
 } from '../../shared'
 import { setSortBy } from '../../widgets/products/productSlice'
 import styles from './filters.module.css'
-export const Filters = () => {
+export const Filters = memo(() => {
   const dispatch = useAppDispatch()
 
   const { sortBy } = useAppSelector((state) => state.product)
@@ -22,4 +23,4 @@ export const Filters = () => {
       />
     </div>
   )
-}
+})
