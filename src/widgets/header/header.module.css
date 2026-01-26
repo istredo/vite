@@ -1,0 +1,147 @@
+.header {
+  position: sticky;
+  top: 0;
+  padding: 10px 0;
+  z-index: 100;
+
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.logo:hover {
+  color: #0056b3;
+}
+
+.nav {
+  display: flex;
+  gap: 15px;
+}
+
+.navLink {
+  padding: 8px 16px;
+
+  text-decoration: none;
+  color: #666;
+  border-radius: 6px;
+  font-weight: 500;
+
+  transition: all 0.2s;
+}
+
+.navLink:hover {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.navLink.active {
+  background: #007bff;
+  color: white;
+}
+
+.navLink.active:hover {
+  background: #0056b3;
+}
+
+.centerSection {
+  flex: 1;
+  min-width: 0;
+}
+
+.filtersWrapper {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .leftSection {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .centerSection {
+    width: 100%;
+    order: 3;
+  }
+
+  .filtersWrapper {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .filtersWrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .nav {
+    gap: 8px;
+  }
+
+  .navLink {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .leftSection {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+}

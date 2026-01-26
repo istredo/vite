@@ -1,0 +1,42 @@
+.selectContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  margin: 0 auto;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.select {
+  padding: 10px 16px;
+  min-width: 200px;
+
+  font-size: 14px;
+  color: black;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.select:hover {
+  border-color: #999;
+}
+
+.select option {
+  padding: 10px;
+
+  background-color: white;
+}
